@@ -3,9 +3,13 @@ import {useState} from 'react';
 import {connect, sendMsg} from './api';
 import Header from './components/Header';
 import ChatHistory from './components/ChatHistory';
+import ChatInput from './components/ChatInput';
 
-function send() {
-    sendMsg('HeLLo');
+function send(event) {
+    if (event.keyCode === 13) {
+        sendMsg(event.target.value);
+        event.target.value = '';
+    }
 }
 
 function App() {
@@ -16,14 +20,13 @@ function App() {
         setChatHistory([
             ...chatHistory, msg
         ]);
-        console.log(chatHistory)
     });
 
     return (
         <div className="App">
             <Header/>
             <ChatHistory chatHistory={chatHistory}/>
-            <button onClick={send}>Hit</button>
+            <ChatInput send={send} />
         </div>
     );
 }
